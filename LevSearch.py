@@ -1,16 +1,21 @@
 from string import ascii_lowercase
 from queue import PriorityQueue
 
+# Finds the shortest Levenshtein distance between two words while only being
+# allowed to use existing words in a dictionary.
+# A text document with a list of words labeled 20k.txt is nessisary to run this
+# program.
+# You can get more info by going to: github.com/amorsey/levenshtein-search
 class LevSearch:
     def __init__(self):
-        #Empty set for all words in dictionary.
+        # Empty set for all words in dictionary.
         self.words = set()
 
-        #Empty map where the letter-sorted version of a word will be the key,
+        # Empty map where the letter-sorted version of a word will be the key,
         # and the value will be a list of words using those letters.
         self.anagrams = {}
 
-        #Empty map where each word will be a key, and the value will be a list
+        # Empty map where each word will be a key, and the value will be a list
         # of its neighbors 1L away.
         self.graph = {}
 
@@ -48,7 +53,7 @@ class LevSearch:
                     + self.word_path(search_result, word1, word2)
         return "(output: -1)"
 
-    #Weight in the PriorityQueue is calculated by letter_dif to give the
+    # Weight in the PriorityQueue is calculated by letter_dif to give the
     # abstract closeness between a word and the destination word. This way
     # better paths are explored first.
     def find_path(self, add, delete, change, anagram, word1, word2):
@@ -93,7 +98,7 @@ class LevSearch:
         if guess in self.words and guess != word:
             self.graph[word][guess] = operation
 
-    #Converts tokens into their associated cost value.
+    # Converts tokens into their associated cost value.
     def cost(self, add, delete, change, anagram, operation):
         return {
             'add': add,
@@ -119,7 +124,7 @@ class LevSearch:
             difference += abs(comp[l])
         return difference
 
-    #Returns words in a searched path by recursing back through the now mapped out graph.
+    # Returns words in a searched path by recursing back through the now mapped out graph.
     def word_path(self, w, start_word, end_word):
         word = end_word
         s = ")"
