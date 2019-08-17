@@ -14,7 +14,7 @@ Your goal is to find the lowest possible “cost” of transforming the starting
 Your solution should detect and handle invalid input, and return -1 if there is no solution.
 
 
-## Example input:
+## Example inputs:
 
 1 3 1 5\
 HEALTH\
