@@ -1,7 +1,7 @@
 # levenshtein-search
 
 ## Problem
-You’ve probably heard of the Levenshtein distance between strings (if you haven’t, no problem! Check it out on Wikipedia).  Your task is to transform one word into another, with four operations: add a letter, delete a letter, change a letter, and take an anagram of the existing word.  Additionally, you have to obey the following rules:
+You’ve probably heard of the Levenshtein distance between strings (if you haven’t, no problem! Check it out on [https://en.wikipedia.org/wiki/Levenshtein_distance](Wikipedia).  Your task is to transform one word into another, with four operations: add a letter, delete a letter, change a letter, and take an anagram of the existing word.  Additionally, you have to obey the following rules:
 
 Every interim step between the first and the last word must also be a word
 No interim step can be less than three letters
@@ -13,48 +13,57 @@ Your goal is to find the lowest possible “cost” of transforming the starting
 
 Your solution should detect and handle invalid input, and return -1 if there is no solution.
 
-Example input:
 
-1 3 1 5
-HEALTH
-HANDS
+## Example input:
+
+1 3 1 5\
+HEALTH\
+HANDS\
 (output: 7) (HEALTH - HEATH - HEATS - HENTS - HENDS - HANDS)
-(If your dictionary doesn’t have a couple of these words in there, don’t worry -- you’re scored on your code, not your word list.)
 
-1 9 1 3
-TEAM
-MATE
+1 9 1 3\
+TEAM\
+MATE\
 (output: 3) (TEAM - MATE)
 
-7 1 5 2
-OPHTHALMOLOGY
-GLASSES
+7 1 5 2\
+OPHTHALMOLOGY\
+GLASSES\
 (output: -1)
 
 
 ## Solution
-To run the program make sure you have Python3 and pip3 install on your machine. I suggest running the program in a enviroment using virtualenv.
+### Running Program
+1. Make sure you have Python3 install on your machine.
+1. Downlaod the 20k.txt and LevSearch.py files, and make sure they are both in the same directory.
+2. Run LevSearch.py with Python3.
 
-### Setup
-Creaing an enviroment (optional):
-'''virtualenv ENV -p python3 #optional
-source ENV/bin/activate #optional'''
-Installing libraries:
-'''pip install 
-'''
-###
+### Explanation
+You can imagine each word as a node on a graph, where words with a Levenshtein of 1 are connected by an edge.
 
-## Explanation
-You can imagine each word as a node on a graph, where words with a Levenshtein of 1 (L1) are connected by an edge.
+When looking at the problem this way the once you convert it into a graph you can use a standard graph search algorythm to find the shortest distance.
 
-When looking at the problem this way there are two main tasks:
-1. Create the graph.
-2. Search the graph for the shortest path between any given words.
+1. Read in data and create lookup tables for each word and the anagrams of each word.
+2. Starting with the first word:
+   1. Sort it's letters and check that against the anagram table.
+   2. Permutate through each leter variation and check those against the word table.
+   3. Add any matching words to a list of neighbor words.
+   4. Choose a word from the list of seen words with the smallest change cost and repeat.
+3. Continue this process until one of two things happen:
+   1. You run out of seen words. Then return -1.
+   2. You have found the destination word, and your remaining seen words all word create longer paths than your current shortest path.
 
-For finding a word's neighbors we can compare it to every other word in the dictionary for an O(n) time, where n is the size of the dictionary. However if we iterate through all variations of a word and check in a hashmap it takes O(n) time once to create the hashmap, and O(m) for each subsequent check. Assuming n >> m, or in other words, that our dictionary size will be much larger than our word lengths, than this is a good tradoff. If we are doing multiple searches through the same dictionary we can further save time by reusing the graph we create.
+### Runetime
+#### Creating the tables
+Creating the lookup talbes will take O(nm) time where n is the size of the dictionary and m is the size of the longest word. Since m much smaller than n we can simplify this to O(n).
 
-#To search the graph I used standard A* pathfinding with number of differing
-#letters as my heuristic. I could have used Levenshtein distance, but that
-#does not account for anagrams, so I choose the more general option. In the
-#worst case it searches all words, all words are connected to eachother, and
-#it has to find all neighbors each time. That gives, O(n^2m).
+#### Checking for a word's neighbors
+Checking each variation of a word will take O(m).
+
+#### Traversing the graph
+The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices. In our case that is O(n^2log(n)) because at most each node isconnected to each other node.
+
+#### Combinding everything
+Adding everything we get O(n + mn^2log(n)). This simplifies to O(n^2log(n)).
+
+Since we choose the shortest cost node for each step our average time will be much better than this.
