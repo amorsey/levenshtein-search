@@ -56,10 +56,10 @@ When looking at the problem this way the once you convert it into a graph you ca
 
 1. Read in data and create lookup tables for each word and the anagrams of each word.
 2. Starting with the first word:
-  1.1. Sort it's letters and check that against the anagram table.
-  1.2. Permutate through each leter variation and check those against the word table.
-  1.3. Add any matching words to a list of neighbor words.
-  1.4. Choose a word from the list of seen words with the smallest change cost and repeat.
+  * Sort it's letters and check that against the anagram table.
+  * Permutate through each leter variation and check those against the word table.
+  * Add any matching words to a list of neighbor words.
+  * Choose a word from the list of seen words with the smallest change cost and repeat.
 3. Continue this process until one of two things happen:
   1.1. You run out of seen words. Then return -1.
   1.2. You have found the destination word, and your remaining seen words all word create longer paths than your current shortest path.
