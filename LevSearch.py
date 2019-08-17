@@ -71,8 +71,8 @@ class LevSearch:
                     frontier.put((new_cost+self.letter_dif(word2, neighbor), neighbor))
         return word_costs
 
-    # I use tokens 'del', 'chg', 'add', and 'ang' to keep track of what operation is being
-    #  is used to change to each word.
+    # I use tokens 'del', 'chg', 'add', and 'ang' to keep track of what operation
+    # is used to get to each new word.
     def add_node(self, word):
         if word not in self.graph:
             self.graph[word] = {}
@@ -93,7 +93,7 @@ class LevSearch:
         if guess in self.words and guess != word:
             self.graph[word][guess] = operation
 
-    #Converts token into cost value.
+    #Converts tokens into their associated cost value.
     def cost(self, add, delete, change, anagram, operation):
         return {
             'add': add,
@@ -119,7 +119,7 @@ class LevSearch:
             difference += abs(comp[l])
         return difference
 
-    #Returns words in a searched path by recursing back through now mapped out graph.
+    #Returns words in a searched path by recursing back through the now mapped out graph.
     def word_path(self, w, start_word, end_word):
         word = end_word
         s = ")"
