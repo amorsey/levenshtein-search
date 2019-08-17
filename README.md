@@ -1,7 +1,7 @@
 # levenshtein-search
 
 ## Problem
-You’ve probably heard of the Levenshtein distance between strings (if you haven’t, no problem! Check it out on[https://en.wikipedia.org/wiki/Levenshtein_distance](Wikipedia)).  Your task is to transform one word into another, with four operations: add a letter, delete a letter, change a letter, and take an anagram of the existing word.  Additionally, you have to obey the following rules:
+You’ve probably heard of the Levenshtein distance between strings (if you haven’t, no problem! Check it out on [https://en.wikipedia.org/wiki/Levenshtein_distance](Wikipedia).  Your task is to transform one word into another, with four operations: add a letter, delete a letter, change a letter, and take an anagram of the existing word.  Additionally, you have to obey the following rules:
 
 Every interim step between the first and the last word must also be a word
 No interim step can be less than three letters
@@ -55,15 +55,15 @@ When looking at the problem this way the once you convert it into a graph you ca
 
 ### Runetime
 #### Creating the tables
-Creating the looup talbes will take O(nm) time where n is the size of the dictionary and m is the size of the longest word. Since m much smaller than n we can simplify this to O(n).
+Creating the lookup talbes will take O(nm) time where n is the size of the dictionary and m is the size of the longest word. Since m much smaller than n we can simplify this to O(n).
 
 #### Checking for a word's neighbors
 Checking each variation of a word will take O(m).
 
 #### Traversing the graph
-The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices, or O(n^2log(n)) because at most each node isconnected to each other node.
+The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices. In our case that is O(n^2log(n)) because at most each node isconnected to each other node.
 
 #### Combinding everything
 Adding everything we get O(n + mn^2log(n)). This simplifies to O(n^2log(n)).
 
-However since we choose the shortest cost node for each step our average time will be much better than this.
+Since we choose the shortest cost node for each step our average time will be much better than this.
