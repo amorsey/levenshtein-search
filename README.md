@@ -29,7 +29,7 @@ MATE\
 7 1 5 2\
 OPHTHALMOLOGY\
 GLASSES\
-(output: -1)\
+(output: -1)
 
 
 ## Solution
@@ -54,12 +54,16 @@ When looking at the problem this way the once you convert it into a graph you ca
    2. You have found the destination word, and your remaining seen words all word create longer paths than your current shortest path.
 
 ### Runetime
+#### Creating the tables
 Creating the looup talbes will take O(nm) time where n is the size of the dictionary and m is the size of the longest word. Since m much smaller than n we can simplify this to O(n).
 
-The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices, or O(n^2log(n)) because at most each node isconnected to each other node.
-
+#### Checking for a word's neighbors
 Checking each variation of a word will take O(m).
 
-Adding everything we get O(n + mn^2log(n)). This simplifies to O(n^2log(n))
+#### Traversing the graph
+The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices, or O(n^2log(n)) because at most each node isconnected to each other node.
+
+#### Combinding everything
+Adding everything we get O(n + mn^2log(n)). This simplifies to O(n^2log(n)).
 
 However since we choose the shortest cost node for each step our average time will be much better than this.
