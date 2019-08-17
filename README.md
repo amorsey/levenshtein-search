@@ -13,34 +13,23 @@ Your goal is to find the lowest possible “cost” of transforming the starting
 
 Your solution should detect and handle invalid input, and return -1 if there is no solution.
 
-Example input:
 
-1 3 1 5
+## Example input:
 
-HEALTH
-
-HANDS
-
+1 3 1 5\
+HEALTH\
+HANDS\
 (output: 7) (HEALTH - HEATH - HEATS - HENTS - HENDS - HANDS)
 
-(If your dictionary doesn’t have a couple of these words in there, don’t worry -- you’re scored on your code, not your word list.)
-
-1 9 1 3
-
-TEAM
-
-MATE
-
+1 9 1 3\
+TEAM\
+MATE\
 (output: 3) (TEAM - MATE)
 
-
-7 1 5 2
-
-OPHTHALMOLOGY
-
-GLASSES
-
-(output: -1)
+7 1 5 2\
+OPHTHALMOLOGY\
+GLASSES\
+(output: -1)\
 
 
 ## Solution
