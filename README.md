@@ -56,7 +56,7 @@ When looking at the problem this way the once you convert it into a graph you ca
 
 1. Read in data and create lookup tables for each word and the anagrams of each word.
 2. Starting with the first word:
-  i. Sort it's letters and check that against the anagram table.
+ 1. Sort it's letters and check that against the anagram table.
   ii. Permutate through each leter variation and check those against the word table.
   iii. Add any matching words to a list of neighbor words.
   iiii. Choose a word from the list of seen words with the smallest change cost and repeat.
