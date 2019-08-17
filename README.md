@@ -34,8 +34,8 @@ GLASSES\
 
 ## Solution
 ### Running Program
-1. Make sure you have Python3 install on your machine.
-1. Downlaod the 20k.txt and LevSearch.py files, and make sure they are both in the same directory.
+1. Make sure you have Python3 installed on your machine.
+1. Download the 20k.txt and LevSearch.py files, and make sure they are both in the same directory.
 2. Run LevSearch.py with Python3.
 
 ### Explanation
