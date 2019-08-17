@@ -1,21 +1,3 @@
-#The two biggest bottlenecks in the problem are finding a word's Levenshtein-1
-#neighbors, and searching through the created graph of words.
-
-#For finding a word's neighbors we can compare it to every other word in the
-#dictionary for an O(n) time, where n is the size of the dictionary. However if
-#we iterate through all variations of a word and check in a hashmap it takes
-#O(n) time once to create the hashmap, and O(m) for each subsequent check.
-#Assuming n >> m, or in other words, that our dictionary size will be much
-#larger than our word lengths, than this is a good tradoff. If we are doing
-#multiple searches through the same dictionary we can further save time by
-#reusing the graph we create.
-
-#To search the graph I used standard A* pathfinding with number of differing
-#letters as my heuristic. I could have used Levenshtein distance, but that
-#does not account for anagrams, so I choose the more general option. In the
-#worst case it searches all words, all words are connected to eachother, and
-#it has to find all neighbors each time. That gives, O(n^2m).
-
 from string import ascii_lowercase
 from queue import PriorityQueue
 
@@ -27,7 +9,7 @@ class WordPath:
         #Map with all common anagrams. Lookup O(n).
         self.anagrams = {}
 
-        #Map of all words and neighboring words 1 opperation away; lookup O(n)
+        #Map of all words and neighboring words 1 opperation away. lookup O(n).
         self.graph = {}
 
     #Inputs from dictionary, and adds sorted.
