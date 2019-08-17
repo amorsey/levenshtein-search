@@ -1,7 +1,7 @@
 # levenshtein-search
 
 ## Problem
-You’ve probably heard of the Levenshtein distance between strings (if you haven’t, no problem! Check it out on Wikipedia).  Your task is to transform one word into another, with four operations: add a letter, delete a letter, change a letter, and take an anagram of the existing word.  Additionally, you have to obey the following rules:
+You’ve probably heard of the Levenshtein distance between strings (if you haven’t, no problem! Check it out on[https://en.wikipedia.org/wiki/Levenshtein_distance](Wikipedia)).  Your task is to transform one word into another, with four operations: add a letter, delete a letter, change a letter, and take an anagram of the existing word.  Additionally, you have to obey the following rules:
 
 Every interim step between the first and the last word must also be a word
 No interim step can be less than three letters
@@ -56,22 +56,22 @@ When looking at the problem this way the once you convert it into a graph you ca
 
 1. Read in data and create lookup tables for each word and the anagrams of each word.
 2. Starting with the first word:
---1. Sort it's letters and check that against the anagram table.
---2. Permutate through each leter variation and check those against the word table.
---3. Add any matching words to a list of neighbor words.
---4. Choose a word from the list of seen words with the smallest change cost and repeat.
+  1. Sort it's letters and check that against the anagram table.
+  2. Permutate through each leter variation and check those against the word table.
+  3. Add any matching words to a list of neighbor words.
+  4. Choose a word from the list of seen words with the smallest change cost and repeat.
 3. Continue this process until one of two things happen:
---1. You run out of seen words. Then return -1.
---2. You have found the destination word, and your remaining seen words all word create longer paths than your current shortest path.
+  1. You run out of seen words. Then return -1.
+  2. You have found the destination word, and your remaining seen words all word create longer paths than your current shortest path.
 
 
 ### Runetime
 Creating the looup talbes will take O(nm) time where n is the size of the dictionary and m is the size of the longest word. Since m much smaller than n we can simplify this to O(n).
 
-The traversal of a graph using a queue of seen vertices has a runtime of O(elog(v)) where e is the edges and v vertices, or O(n^2log(n)) because at most each node isconnected to each other node.
+The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices, or O(n^2log(n)) because at most each node isconnected to each other node.
 
 Checking each variation of a word will take O(m).
 
 Adding everything we get O(n + mn^2log(n)). This simplifies to O(n^2log(n))
 
-However because we are using a priority queue, and choosing smallest step our average time will be much better than this.
+However since we choose the shortest cost node for each step our average time will be much better than this.
