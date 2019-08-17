@@ -34,36 +34,36 @@ GLASSES\
 
 ## Solution
 ### Running Program
-1. Make sure you have Python3 install on your machine.
-1. Downlaod the 20k.txt and LevSearch.py files, and make sure they are both in the same directory.
+1. Make sure you have Python3 installed on your machine.
+1. Download the 20k.txt and LevSearch.py files, and make sure they are both in the same directory.
 2. Run LevSearch.py with Python3.
 
 ### Explanation
 You can imagine each word as a node on a graph, where words with a Levenshtein of 1 are connected by an edge.
 
-When looking at the problem this way the once you convert it into a graph you can use a standard graph search algorythm to find the shortest distance.
+Once you convert the problem into a graph you can use a standard graph search algorithm to find the shortest distance.
 
 1. Read in data and create lookup tables for each word and the anagrams of each word.
 2. Starting with the first word:
-   1. Sort it's letters and check that against the anagram table.
-   2. Permutate through each leter variation and check those against the word table.
+   1. Sort its letters and check that against the anagram table.
+   2. Go through each letter variation and check those against the word table.
    3. Add any matching words to a list of neighbor words.
    4. Choose a word from the list of seen words with the smallest change cost and repeat.
 3. Continue this process until one of two things happen:
    1. You run out of seen words. Then return -1.
-   2. You have found the destination word, and your remaining seen words all word create longer paths than your current shortest path.
+   2. You have found the destination word, and your remaining seen words would all create longer paths than your current shortest path.
 
-### Runetime
+### Runtime
 #### Creating the tables
-Creating the lookup talbes will take O(nm) time where n is the size of the dictionary and m is the size of the longest word. Since m much smaller than n we can simplify this to O(n).
+Creating the lookup tables will take O(nm) time where n is the number of words in the dictionary and m is the length of the longest word. Since m much smaller than n we can simplify this to O(n).
 
 #### Checking for a word's neighbors
 Checking each variation of a word will take O(m).
 
 #### Traversing the graph
-The traversal of a graph has a runtime of O(elog(v)) where e is the edges and v vertices. In our case that is O(n^2log(n)) because at most each node isconnected to each other node.
+The traversal of a graph has a runtime of O(elog(v)) where e is the number of edges and v is the number of vertices. In our case that is O(n^2log(n)) because at most each word is connected to each other word once.
 
-#### Combinding everything
+#### Combining everything
 Adding everything we get O(n + mn^2log(n)). This simplifies to O(n^2log(n)).
 
-Since we choose the shortest cost node for each step our average time will be much better than this.
+Since we choose the shortest cost node for each step our average time will end up being much better than this.

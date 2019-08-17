@@ -3,19 +3,17 @@ from queue import PriorityQueue
 
 class LevSearch:
     def __init__(self):
-        #Empty set for all words in dictionary. Lookup O(n).
+        #Empty set for all words in dictionary.
         self.words = set()
 
         #Empty map where the letter-sorted version of a word will be the key,
-        # and the value will be a list of words using those letters. Lookup O(n).
+        # and the value will be a list of words using those letters.
         self.anagrams = {}
 
         #Empty map where each word will be a key, and the value will be a list
-        # of its neighbors 1L away. Lookup O(n).
+        # of its neighbors 1L away.
         self.graph = {}
 
-    #Reads in dictionary data from 20k.txt, and fills in the word and anagram
-    # set and map. Populating be O(nm), or O(n) since n >> m.
     def build_lookup_tables(self):
         with open('20k.txt') as f:
             for line in f:
@@ -27,7 +25,6 @@ class LevSearch:
                 else:
                     self.anagrams[sorted_word].add(word)
 
-    #Takes and validates inputs then runs search.
     def program_runner(self):
         values = input().split()
         try:
@@ -45,14 +42,15 @@ class LevSearch:
             raise ValueError('edge weights can not be less than zero')
         if not word1.isalpha() or not word2.isalpha():
             raise ValueError('searched words must only contain letters')
-        #Calls find_path to start traversal.
         search_result = self.find_path(add, delete, change, anagram, word1, word2)
         if word2 in search_result:
             return "(output: " + str(search_result[word2][0]) + ") " \
                     + self.word_path(search_result, word1, word2)
         return "(output: -1)"
 
-    #Searches through the graph only adding nodes as needed.
+    #Weight in the PriorityQueue is calculated by letter_dif to give the
+    # abstract closeness between a word and the destination word. This way
+    # better paths are explored first.
     def find_path(self, add, delete, change, anagram, word1, word2):
         frontier = PriorityQueue() #(weight, word)
         frontier.put((0, word1))
@@ -70,12 +68,11 @@ class LevSearch:
                 if not in_list or new_cost < word_costs[neighbor][0]:
                     word_costs[neighbor] = (new_cost, current_word)
                 if not in_list:
-                    frontier.put((new_cost+self.letter_dif(word2,neighbor), neighbor))
+                    frontier.put((new_cost+self.letter_dif(word2, neighbor), neighbor))
         return word_costs
 
-    #Updates graph with a new node and all word's one operation away.
-    #Each neighbor entrie also has a discriptor ('del', 'chg', ect.) for the
-    # operation required to change to it. This runs in O(m).
+    # I use tokens 'del', 'chg', 'add', and 'ang' to keep track of what operation is being
+    #  is used to change to each word.
     def add_node(self, word):
         if word not in self.graph:
             self.graph[word] = {}
@@ -85,19 +82,18 @@ class LevSearch:
                        self.check_guess(word, str(word[:i]+c+word[i+1:]), 'chg')
                        self.check_guess(word, str(word[:i]+c+word[i:]), 'add')
                 for c in ascii_lowercase:
-                    self.check_guess(word, str(word+c), 'add') #Add last letter
+                    self.check_guess(word, str(word+c), 'add')
             anagram = ''.join(sorted(word))
-            if anagram in self.anagrams: #Add any anagrams
+            if anagram in self.anagrams:
                 for w in self.anagrams[anagram]:
                     if w != word:
                         self.graph[word][w] = 'ang'
 
-    #Simplifies add_node a little.
     def check_guess(self, word, guess, operation):
         if guess in self.words and guess != word:
             self.graph[word][guess] = operation
 
-    #Converts operation token into cost value.
+    #Converts token into cost value.
     def cost(self, add, delete, change, anagram, operation):
         return {
             'add': add,
@@ -106,7 +102,6 @@ class LevSearch:
             'ang': anagram
         }[operation]
 
-    #Number of different letters between two words. O(m).
     def letter_dif(self, word1, word2):
         comp = {}
         for l in word1:
@@ -124,7 +119,7 @@ class LevSearch:
             difference += abs(comp[l])
         return difference
 
-    #Returns words in a searched path by recursing back through graph.
+    #Returns words in a searched path by recursing back through now mapped out graph.
     def word_path(self, w, start_word, end_word):
         word = end_word
         s = ")"
@@ -134,7 +129,6 @@ class LevSearch:
         s = "(" + word.upper() +":"+ str(w[word][0]) + s
         return s
 
-#Called when class is run.
 if __name__ == "__main__":
     my_search = LevSearch()
     my_search.build_lookup_tables()
